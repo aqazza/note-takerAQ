@@ -21,32 +21,29 @@ router.post("/", (req, res) => {
     };
     const currentNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
     currentNotes.push(newNote);
-console.log(currentNotes)
     fs.writeFile("db/db.json", JSON.stringify(currentNotes), (err) => {
       err
         ? console.error(err)
-        : console.log(`Note for ${newNote.title} has been updated`);
+        : console.info(`Note for ${newNote.title} has been updated`);
     });
+    res.json(currentNotes);
   }
-  res.json(currentNotes)
 });
 //Deleting notes from database
 router.delete("/:id", (req, res) => {
-  let data = fs.readFileSync('./db/db.json', 'utf8');
-  const datafromJSON = JSON.parse(data)
+  let data = fs.readFileSync("./db/db.json", "utf8");
+  const datafromJSON = JSON.parse(data);
 
   const newNotes = datafromJSON.filter((note) => {
     return note.id !== req.params.id;
+  });
+  fs.writeFile("./db/db.json", JSON.stringify(newNotes), (err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+  });
+  res.json(newNotes);
 });
-fs.writeFile('./db/db.json', JSON.stringify(newNotes), (err) => {
-  if (err) {
-   console.error(err);
-   return;
-  }
-  
- });
- res.json(newNotes);
-});
-
 
 module.exports = router;

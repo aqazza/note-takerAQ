@@ -17,4 +17,4 @@ res.sendFile(path.join(__dirname, './public/notes.html'));
 })
 
 // spin up server
-app.listen(PORT, () => console.log(`Your app is listening at http://localhost:${PORT}`));
+app.listen(PORT, () => console.info(`Your app is listening at http://localhost:${PORT}`));
